@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     EditText editText_remove,editText_cap;
     public Bitmap imageBitmap;
-    public String caption;
+    public String[] caption;
+    public int i = 0;
     ArrayList list = new ArrayList();
 
     @Override
@@ -52,17 +53,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final NewAdapter adapter = new NewAdapter(this,imageBitmap,caption,list);
-        listView.setAdapter(adapter);
-
         button_cap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                caption = editText_cap.getText().toString();
+                caption[i] = editText_cap.getText().toString();
                 editText_cap.setText("");
+                i++;
 
             }
         });
+        final NewAdapter adapter = new NewAdapter(this,imageBitmap,caption);
+        listView = (ListView)findViewById(R.id.listView);
+        listView.setAdapter(adapter);
 
         button_remove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,27 +94,27 @@ public class MainActivity extends AppCompatActivity {
 }
 class NewAdapter extends ArrayAdapter<String>{
     Context context;
-    String captiontext;
+    String[] captiontext;
     Bitmap image;
     ArrayList list;
-    NewAdapter(Context c,Bitmap imageBitmap,String caption,ArrayList list){
-        super(c,R.layout.single_row);
+    NewAdapter(Context c,Bitmap imageBitmap,String[] caption){
+        super(c,R.layout.single_row,caption);
         this.context = c;
         this.captiontext=caption;
         this.image=imageBitmap;
-        this.list=list;
+
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = inflater.inflate(R.layout.single_row,parent,false);
+        View row = inflater.inflate(R.layout.single_row,parent,true);
         ImageView myimage = (ImageView) row.findViewById(R.id.imageView2);
         TextView mytext = (TextView) row.findViewById(R.id.textView2);
 
         myimage.setImageBitmap(image);
-        mytext.setText(captiontext);
+        mytext.setText(captiontext[position]);
 
         return row;
     }
