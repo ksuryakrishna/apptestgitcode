@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Task2_delta</string>
+    <string name="addimage">ADD IMAGE</string>
+    <string name="addcaption">ADD CAPTION</string>
+</resources>
