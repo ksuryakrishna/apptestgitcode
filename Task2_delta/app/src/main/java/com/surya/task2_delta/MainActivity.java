@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     public Bitmap imageBitmap;
     public String[] caption;
     public int i = 0;
-    ArrayList list = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 int inp_pos = Integer.parseInt(input);
                 int size = listView.getAdapter().getCount();
                 if (size>inp_pos){
-                    list.remove(inp_pos);
+                    adapter.remove(input);
                     adapter.notifyDataSetChanged();
                 }
                 else
@@ -93,19 +92,17 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 class NewAdapter extends ArrayAdapter<String>{
-    Context context;
-    String[] captiontext;
-    Bitmap image;
-    ArrayList list;
+    public Context context;
+    public String[] captiontext;
+    public Bitmap image;
     NewAdapter(Context c,Bitmap imageBitmap,String[] caption){
-        super(c,R.layout.single_row,caption);
+        super(c,R.layout.single_row,R.id.textView2);
         this.context = c;
         this.captiontext=caption;
         this.image=imageBitmap;
 
     }
 
-    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -115,6 +112,7 @@ class NewAdapter extends ArrayAdapter<String>{
 
         myimage.setImageBitmap(image);
         mytext.setText(captiontext[position]);
+
 
         return row;
     }
